@@ -1,0 +1,17 @@
+.header {
+    background: #000;
+}
+
+.header__logo {
+    height: 10vh;
+    width: 20vw;
+}
+
+table th {
+    font-weight: bold;
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+}
