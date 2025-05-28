@@ -14,18 +14,20 @@
 git clone https://github.com/KOUSEI-dot/advanced-laravel.git
 cd advanced-laravel
 
-docker-compose up -d--build
-
 cd src
 
 # PHP のインストール
 brew install php
 
+docker-compose up --build
 docker-compose exec php bash
 
 
 # パッケージインストール
 composer install || composer update
+
+exit
+
 npm install
 
 # フロントエンドアセットをビルド（ 開発用ビルド）
