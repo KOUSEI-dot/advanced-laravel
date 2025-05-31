@@ -17,6 +17,10 @@ cd advanced-laravel
 cd src
 
 docker-compose up --build
+⇨一度ターミナルを閉じる。
+
+cd advanced-laravel
+
 docker-compose exec php bash
 
 
@@ -34,14 +38,14 @@ npm run dev   # 開発環境向け
 cp .env.example .env
 php artisan key:generate
 
-# DB作成とマイグレーション
-php artisan migrate
 
 ```
 
-public > stoarage に以下の画像を入れる。
+cd public
 
-![alt text](logo.svg)
+mkdir storage
+
+src > public > storage ![alt text](logo.svg)を入れる。
 
 隠しファイルの.env を以下のように書き換える。⇩
 
