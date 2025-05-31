@@ -39,6 +39,10 @@ php artisan migrate
 
 ```
 
+public > stoarage に以下の画像を入れる。
+
+![alt text](logo.svg)
+
 隠しファイルの.env を以下のように書き換える。⇩
 
 DB_CONNECTION=mysql
