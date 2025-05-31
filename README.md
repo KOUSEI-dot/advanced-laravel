@@ -16,9 +16,6 @@ cd advanced-laravel
 
 cd src
 
-# PHP のインストール
-brew install php
-
 docker-compose up --build
 docker-compose exec php bash
 
@@ -41,6 +38,15 @@ php artisan key:generate
 php artisan migrate
 
 ```
+
+隠しファイルの.env を以下のように書き換える。⇩
+
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
 
 ## 使用技術（実行環境）
 
