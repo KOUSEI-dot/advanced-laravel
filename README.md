@@ -14,8 +14,6 @@
 git clone https://github.com/KOUSEI-dot/advanced-laravel.git
 cd advanced-laravel
 
-cd src
-
 docker-compose up --build
 ⇨一度ターミナルを閉じる。
 
@@ -28,6 +26,9 @@ docker-compose exec php bash
 composer install || composer update
 
 exit
+
+cd src
+
 
 npm install
 
