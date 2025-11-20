@@ -1,0 +1,122 @@
+/* ------------------ */
+/* 共通レイアウト     */
+/* ------------------ */
+
+body {
+    background-color: #f3f4f6;
+    /* 薄いグレー */
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ------------------ */
+/* タイトル            */
+/* ------------------ */
+
+.page-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+/* ------------------ */
+/* カレンダー移動UI    */
+/* ------------------ */
+
+.calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+    align-items: center;
+}
+
+.calendar-nav .center-label {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-nav a {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.calendar-nav a:hover {
+    text-decoration: underline;
+}
+
+/* カレンダーアイコン */
+.icon-calendar {
+    width: 20px;
+    height: 20px;
+    stroke: #333;
+}
+
+/* ------------------ */
+/* テーブルデザイン    */
+/* ------------------ */
+
+.table-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.table-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-card thead {
+    background: #e5e7eb;
+}
+
+.table-card th,
+.table-card td {
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table-card th {
+    font-weight: bold;
+}
+
+.table-card tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.table-card tr:last-child {
+    border-bottom: none;
+}
+
+/* 名前列だけ左揃え */
+.table-card td:first-child {
+    text-align: left;
+}
+
+/* 詳細リンク */
+.detail-link {
+    color:black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}

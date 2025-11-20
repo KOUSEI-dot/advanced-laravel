@@ -1,94 +1,100 @@
-# advanced-laravel
+# Advanced Laravel（勤怠管理システム）
 
-従業員の出勤・退勤・休憩の記録と、勤怠修正申請・承認フローを管理する Web アプリケーションです。
-ユーザーと管理者の 2 つの 権限があり、ユーザーは勤怠の打刻・修正申請を、管理者はそれらの承認管理を行います。
+従業員の **出勤・退勤・休憩の記録** および
+**勤怠修正申請・承認フロー** を管理する Web アプリケーションです。
+
+ユーザー（従業員）と管理者の 2 権限を持ち、
+ユーザーは勤怠の打刻と修正申請、管理者は勤怠データの確認や承認管理を行います。
 
 ---
 
-## 環境構築
+# 🚀 環境構築
 
-以下の手順でローカル環境を構築できます。
+Docker を使用してローカル環境を構築します。
+
+---
+
+## 1. リポジトリをクローン
 
 ```bash
-# リポジトリをクローン
 git clone https://github.com/KOUSEI-dot/advanced-laravel.git
 cd advanced-laravel
-
+2. Docker ビルド & 起動
+bash
+コードをコピーする
 docker-compose up --build
-⇨一度ターミナルを閉じる。
+⚠ 実行後、一度ターミナルを閉じて開き直してください。
 
-cd advanced-laravel
-
+3. PHP コンテナに入る
+bash
+コードをコピーする
 docker-compose exec php bash
+4. Composer インストール
+bash
+コードをコピーする
+composer install
+# または
+composer update
+コンテナを抜けます：
 
-
-# パッケージインストール
-composer install || composer update
-
+bash
+コードをコピーする
 exit
-
+5. Node パッケージのインストール
+bash
+コードをコピーする
 cd src
-
-
 npm install
-
-# フロントエンドアセットをビルド（ 開発用ビルド）
-npm run dev   # 開発環境向け
-
-# .env 設定
+npm run dev
+6. .env の設定
+bash
+コードをコピーする
+cd src
 cp .env.example .env
 php artisan key:generate
+.env を以下に書き換えます：
 
-
-```
-
-cd public
-
-mkdir storage
-
-src > public > storage に![alt text](logo.svg)を入れる。
-
-隠しファイルの.env を以下のように書き換える。⇩
-
+ini
+コードをコピーする
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
+7. ロゴ画像の設定
+アプリで使用するロゴ画像 logo.svg を配置します。
 
-## 使用技術（実行環境）
+bash
+コードをコピーする
+cd src/public
+mkdir storage
+src/public/storage/logo.svg にファイルを保存してください。
 
-- **Laravel 8.x**
-  - `composer.json` の `"laravel/framework": "^8.75"` より
-- **PHP 7.3 〜 8.x 対応**
-  - `"php": "^7.3|^8.0"` より
-- **MySQL**
-  - `.env` にて `DB_CONNECTION=mysql` が設定されているため
-- **Laravel Fortify**（認証機能）
-  - `"laravel/fortify": "^1.19"` より
-- **Laravel Sanctum**（API トークン認証に対応可能）
-  - `"laravel/sanctum": "^2.11"` より
-- **Guzzle HTTP Client**（API 通信）
-  - `"guzzlehttp/guzzle": "^7.0.1"` より
-- **CORS 対応**
-  - `"fruitcake/laravel-cors": "^2.0"` によりクロスオリジン通信の設定が可能
-- **Tinker**（REPL 環境）
-  - `php artisan tinker` でテスト・DB 操作が可能
-- **Laravel Sail**（ローカル開発用の Docker 環境オプション）
-  - `"laravel/sail": "^1.0.1"` は Docker 環境での開発もサポート
-- **テスト環境**
-  - PHPUnit（`^9.5.10`）、Mockery、Faker を使用してテストが可能
-- **ローカル開発用 SMTP メール環境**
-  - `.env` に `MAIL_HOST=mailhog` とあり、MailHog を使用したテストメール送信に対応
-- **Redis（オプション）**
-  - `.env` に Redis の記載があり、キューやキャッシュでの利用を想定
+🛠 使用技術
+分類	技術
+Backend Framework	Laravel 8.x
+Language	PHP 7.3〜8.x
+DB	MySQL
+Authentication	Laravel Fortify
+CSRF / Cookie 認証	Laravel Sanctum
+HTTP Client	Guzzle
+CORS	fruitcake/laravel-cors
+開発環境	Docker / Laravel Sail
+メール	MailHog
+Testing	PHPUnit / Mockery / Faker
+キャッシュ（任意）	Redis
 
-## ER 図
+🗂 ER 図
+ER 図は docs/er-diagram.md にまとめています。
 
-![alt text](<スクリーンショット 2025-05-09 14.40.38.png>)
+👉 ER Diagram を見る
 
-## URL
+※ GitHub / VSCode / Mermaid Live Editor で表示できます。
 
-・開発環境：：http://localhost
-・phpMyadmin:http://localhost:8000
+🌐 URL 一覧（ローカル環境）
+用途	URL
+アプリ（開発環境）	http://localhost
+phpMyAdmin	http://localhost:8000
+
+```

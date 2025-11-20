@@ -1,0 +1,73 @@
+body {
+    background: #fff;
+    color: #000;
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background: #000;
+    display: flex;
+    align-items: center;
+    padding: 10px 30px;
+}
+
+.header__logo {
+    height: 30px;
+}
+
+.verify-form__content {
+    margin: 0 auto;
+    padding: 60px 15px;
+    max-width: 800px;
+}
+
+.verify-title {
+    display: none;
+    /* 画像ではタイトル非表示なので */
+}
+
+.verify-container {
+    background: #fff;
+    text-align: center;
+    margin: 100px auto 0;
+    padding: 30px;
+}
+
+.verify-message {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.verify-button {
+    background-color: #d9d9d9;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.verify-button:hover {
+    opacity: 0.9;
+}
+
+.resend-link a {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.resend-link a:hover {
+    text-decoration: underline;
+}
+
+.sent-message {
+    color: green;
+    margin-bottom: 20px;
+}

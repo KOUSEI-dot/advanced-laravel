@@ -6,33 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateBreakTimesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('break_times', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('attendance_record_id'); // 勤怠レコードへの外部キー
-            $table->timestamp('break_start')->nullable(); // 休憩開始
-            $table->timestamp('break_end')->nullable();   // 休憩終了
+
+            // attendance_records.id と関連
+            $table->unsignedBigInteger('attendance_id');
+
+            // 時刻は start_time / end_time に統一
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+
             $table->timestamps();
 
-            // 外部キー制約（削除されたら一緒に削除）
-            $table->foreign('attendance_record_id')
-                    ->references('id')
-                    ->on('attendance_records')
-                    ->onDelete('cascade');
+            $table->foreign('attendance_id')
+                ->references('id')
+                ->on('attendance_records')
+                ->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('break_times');

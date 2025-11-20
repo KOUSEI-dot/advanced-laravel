@@ -11,13 +11,19 @@ class AttendanceRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'attendance_id',
+        'user_id',
+        'requested_clock_in',
+        'requested_clock_out',
+        'requested_breaks', // JSON 保持
         'request_reason',
         'status',
         'admin_id',
-        'requested_clock_in',
-        'requested_clock_out',
+];
+
+
+    protected $casts = [
+        'requested_breaks' => 'array',
     ];
 
     public function user(): BelongsTo

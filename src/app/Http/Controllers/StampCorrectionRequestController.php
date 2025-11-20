@@ -26,4 +26,14 @@ class StampCorrectionRequestController extends Controller
     return view('attendance.stamp_correction_request_list', compact('pendingRequests', 'approvedRequests'));
     }
 
+    public function show($id)
+    {
+        $attendanceRequest = AttendanceRequest::with(['user', 'attendanceRecord'])
+            ->findOrFail($id);
+
+        return view('attendance.request_detail', compact('attendanceRequest'));
+    }
+
+
+
 }

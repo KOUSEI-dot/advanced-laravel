@@ -16,14 +16,19 @@ class CreateAttendanceRecordsTable extends Migration
         Schema::create('attendance_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
+            // 日付
             $table->date('date');
-            $table->timestamp('clock_in')->nullable();
-            $table->timestamp('clock_out')->nullable();
-            $table->string('status')->default('勤務外'); // 追加
+
+            // 🔥 TIME型に修正（これが最重要）
+            $table->time('clock_in')->nullable();
+            $table->time('clock_out')->nullable();
+
+            $table->string('status')->default('勤務外');
+
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

@@ -1,0 +1,99 @@
+/* ===== 全体レイアウト ===== */
+body {
+    background-color: #f3f3f5;
+    font-family: "Noto Sans JP", sans-serif;
+    color: #111;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== コンテナ ===== */
+.attendance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: calc(100vh - 80px);
+    padding-top: 100px;
+}
+
+/* ===== ステータスバッジ ===== */
+.status-badge {
+    background-color: #e5e5e5;
+    color: #555;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* ===== 日付 ===== */
+.current-date {
+    margin: 10px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* ===== 時刻 ===== */
+.current-time {
+    font-size: 56px;
+    font-weight: 700;
+    margin-top: 15px;
+    letter-spacing: 2px;
+}
+
+/* ===== ボタンエリア ===== */
+.button-area {
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* ===== 横並びボタン ===== */
+.btn-group-horizontal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ===== 共通ボタン ===== */
+.btn {
+    width: 140px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+}
+
+/* 黒ボタン */
+.btn-black {
+    background-color: #000;
+    color: #fff;
+}
+
+.btn-black:hover {
+    background-color: #222;
+}
+
+/* 白ボタン */
+.btn-white {
+    background-color: #fff;
+    color: #000;
+    border: 1.5px solid #000;
+}
+
+.btn-white:hover {
+    background-color: #f8f8f8;
+}
+
+/* お疲れ様メッセージ */
+.finished-text {
+    margin-top: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}

@@ -6,58 +6,54 @@
 
 @section('content')
 <div class="login-form__content">
-  <div class="login-form__heading">
-    <h2>ログイン</h2>
-  </div>
+    <div class="login-form__heading">
+        <h2>ログイン</h2>
+    </div>
 
+    {{-- ログイン失敗メッセージ --}}
+    @if ($errors->has('login'))
+        <div class="form__error text-center">
+            {{ $errors->first('login') }}
+        </div>
+    @endif
 
-  {{-- ログイン認証失敗エラー --}}
-        @if ($errors->has('login'))
-            <div class="form__error">
-                {{ $errors->first('login') }}
+    <form class="form" action="/login" method="post">
+        @csrf
+        {{-- メールアドレス --}}
+        <div class="form__group">
+            <label class="form__label--item">メールアドレス</label>
+            <div class="form__input--text">
+                <input type="email" name="email" value="{{ old('email') }}">
             </div>
-        @endif
+            <div class="form__error">
+                @error('email')
+                    {{ $message }}
+                @enderror
+            </div>
+        </div>
 
-  <form class="form" action="/login" method="post">
-    @csrf
-    <div class="form__group">
-      <div class="form__group-title">
-        <span class="form__label--item">メールアドレス</span>
-      </div>
-      <div class="form__group-content">
-        <div class="form__input--text">
-          <input type="text" name="email" value="{{ old('email') }}" />
+        {{-- パスワード --}}
+        <div class="form__group">
+            <label class="form__label--item">パスワード</label>
+            <div class="form__input--text">
+                <input type="password" name="password">
+            </div>
+            <div class="form__error">
+                @error('password')
+                    {{ $message }}
+                @enderror
+            </div>
         </div>
-        {{-- バリデーションエラー（email.required / email.email） --}}
-        <div class="form__error">
-          @error('email')
-              {{ $message }}
-          @enderror
-      </div>
-    </div>
-    <div class="form__group">
-      <div class="form__group-title">
-        <span class="form__label--item">パスワード</span>
-      </div>
-      <div class="form__group-content">
-        <div class="form__input--text">
-          <input type="password" name="password" />
+
+        {{-- ログインボタン --}}
+        <div class="form__button">
+            <button class="form__button-submit" type="submit">ログインする</button>
         </div>
-        <div class="form__error">
-        {{-- バリデーションエラー（password.required） --}}
-        <div class="form__error">
-          @error('password')
-              {{ $message }}
-          @enderror
-        </div>
-      </div>
+    </form>
+
+    {{-- 会員登録リンク --}}
+    <div class="register__link">
+        <a href="/register">会員登録はこちら</a>
     </div>
-    <div class="form__button">
-      <button class="form__button-submit" type="submit">ログイン</button>
-    </div>
-  </form>
-  <div class="register__link">
-    <a class="register__button-submit" href="/register">会員登録の方はこちら</a>
-  </div>
 </div>
 @endsection

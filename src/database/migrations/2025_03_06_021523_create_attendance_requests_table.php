@@ -13,25 +13,38 @@ class CreateAttendanceRequestsTable extends Migration
      */
     public function up()
     {
-        // attendance_requests テーブル
         Schema::create('attendance_requests', function (Blueprint $table) {
             $table->id();
 
-            // ユーザーと勤怠データへの外部キー
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('attendance_id')->constrained('attendance_records')->onDelete('cascade');
+            // --- 外部キー ---
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
 
-            // 理由とステータスのみ保持
+            $table->foreignId('attendance_id')
+                ->constrained('attendance_records')
+                ->onDelete('cascade');
+
+            // --- 修正申請内容 ---
+            $table->time('requested_clock_in')->nullable();   // 修正出勤時刻（任意）
+            $table->time('requested_clock_out')->nullable();  // 修正退勤時刻（任意）
+
+            // 休憩修正（複数可）→ JSON 形式
+            // 例: [{"start": "12:00", "end": "12:30"}, {"start": "15:00", "end": "15:15"}]
+            $table->json('requested_breaks')->nullable();
+
+            // --- 理由 / ステータス ---
             $table->text('request_reason')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected'])
+                ->default('pending');
 
             // 承認した管理者
-            $table->foreignId('admin_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('admin_id')
+                ->nullable()
+                ->constrained('users')
+                ->onDelete('set null');
 
             $table->timestamps();
-            $table->time('requested_clock_in')->nullable();   // 修正された出勤時刻
-            $table->time('requested_clock_out')->nullable();  // 修正された退勤時刻
-
         });
     }
 

@@ -1,135 +1,131 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>勤怠管理</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body class="bg-gray-100">
+@extends('layouts.authenticated')
 
-<header class="bg-black text-white p-4 flex justify-between items-center">
-    <div class="header__inner">
-        <img class="header__logo" src="/storage/logo.svg" alt="coachtechのロゴ">
-    </div>
-    <nav class="flex">
-        <a href="{{ url('/attendance') }}" class="px-4">勤怠</a>
-        <a href="{{ url('/attendance/list') }}" class="px-4">勤怠一覧</a>
-        <a href="{{ url('/stamp_correction_request/list') }}" class="px-4">申請</a>
-        <form action="{{ route('logout') }}" method="POST" class="inline">
-            @csrf
-            <button type="submit" class="px-4 bg-transparent text-white border-none cursor-pointer">ログアウト</button>
-        </form>
-    </nav>
-</header>
+@section('title', '勤怠詳細')
 
-<main class="container mx-auto mt-8">
-    <h2 class="text-xl font-bold mb-4 text-center">勤怠詳細</h2>
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/detail.css') }}">
+@endsection
 
-    <div class="bg-white shadow-md rounded-lg p-6 mx-auto w-2/3">
+@section('content')
+<div class="attendance-wrapper">
 
-        {{-- エラーメッセージ --}}
-        @if ($errors->any())
-            <div class="mb-4 text-red-500">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    <h1 class="page-title">勤怠詳細</h1>
 
-        {{-- 成功メッセージ --}}
-        @if (session('success'))
-            <div class="mb-4 text-green-500">
-                {{ session('success') }}
-            </div>
-        @endif
+    <div class="attendance-card">
 
-        {{-- 承認待ち申請が存在する場合、申請不可 --}}
-        @if (isset($hasPendingRequest) && $hasPendingRequest)
-            <p class="text-center text-red-500">すでに申請中の修正があります。承認されるまでお待ちください。</p>
-        @else
-        <form action="{{ route('attendance.request') }}" method="POST">
-            @csrf
-            <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
-            <input type="hidden" name="user_id" value="{{ $attendance->user->id }}">
+        {{-- 承認待ちならフォーム非表示 --}}
+        @if ($hasPendingRequest ?? false)
 
-            <table class="w-full border border-gray-300">
-                <tr class="border-b">
-                    <th class="py-2 px-4 border-r">名前</th>
-                    <td class="py-2 px-4">{{ $attendance->user->name }}</td>
-                </tr>
-                <tr class="border-b">
-                    <th class="py-2 px-4 border-r">日付</th>
-                    <td class="py-2 px-4">{{ \Carbon\Carbon::parse($attendance->date)->format('Y年 m月d日') }}</td>
-                </tr>
-                <tr class="border-b">
-                <th class="py-2 px-4 border-r">出勤・退勤</th>
-                <td class="py-2 px-4">
-                    <input type="time" name="clock_in" value="<?php echo e($attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : ''); ?>" class="border px-2 py-1">
-                    分 〜
-                    <input type="time" name="clock_out" value="<?php echo e($attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : ''); ?>" class="border px-2 py-1">
-                    分
-                </td>
+            {{-- 承認待ち表示 --}}
+            <table>
+                <tr><th>名前</th><td>{{ $attendance->user->name }}</td></tr>
+
+                <tr><th>日付</th>
+                    <td>{{ $attendance->date ? $attendance->date->format('Y年 n月j日') : '' }}</td>
                 </tr>
 
-                @foreach ($attendance->breakTimes as $index => $breakTime)
-                <tr class="border-b">
-                    <th class="py-2 px-4 border-r">休憩 {{ $index + 1 }}</th>
-                    <td class="py-2 px-4">
-                        <div class="break-input">
-                            <input type="time" name="break_start[]" value="{{ $breakTime->break_start ? \Carbon\Carbon::parse($breakTime->break_start)->format('H:i') : '' }}" class="border px-2 py-1">
-                            分 〜
-                            <input type="time" name="break_end[]" value="{{ $breakTime->break_end ? \Carbon\Carbon::parse($breakTime->break_end)->format('H:i') : '' }}" class="border px-2 py-1">
-                        </div>
+                <tr>
+                    <th>出勤・退勤</th>
+                    <td>
+                        {{ $attendance->clock_in ? $attendance->clock_in->format('H:i') : '-' }}
+                        〜
+                        {{ $attendance->clock_out ? $attendance->clock_out->format('H:i') : '-' }}
+                    </td>
+                </tr>
+
+                @foreach ($attendance->breakTimes as $i => $break)
+                <tr>
+                    <th>休憩 {{ $i+1 }}</th>
+                    <td>
+                        {{ $break->start_time ? $break->start_time->format('H:i') : '--:--' }}
+                        〜
+                        {{ $break->end_time ? $break->end_time->format('H:i') : '--:--' }}
                     </td>
                 </tr>
                 @endforeach
 
-
-
-
-                <tr>
-                    <th class="py-2 px-4 border-r">備考</th>
-                    <td class="py-2 px-4">
-                        <textarea name="reason" class="border w-full px-2 py-1" required></textarea>
-                    </td>
-                </tr>
+                <tr><th>備考</th><td>{{ $attendanceRequest->request_reason }}</td></tr>
             </table>
 
-            <div class="text-center mt-6">
-                <button type="submit" class="bg-black text-white px-6 py-2 rounded-md">修正</button>
+            <p class="notice-text">＊承認待ちのため修正はできません。</p>
+
+        @else
+
+        {{-- ▼▼ 修正フォーム ▼▼ --}}
+        <form action="{{ route('attendance.request') }}" method="POST">
+            @csrf
+            <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
+
+            <table>
+
+                {{-- 名前 --}}
+                <tr>
+                    <th>名前</th>
+                    <td>{{ $attendance->user->name }}</td>
+                </tr>
+
+                {{-- 日付 --}}
+                <tr>
+                    <th>日付</th>
+                    <td>{{ $attendance->date ? $attendance->date->format('Y年 n月j日') : '' }}</td>
+                </tr>
+
+                {{-- 出勤・退勤 --}}
+                <tr>
+                    <th>出勤・退勤</th>
+                    <td>
+                        <input type="time"
+                            name="requested_clock_in"
+                            value="{{ $attendance->clock_in ? $attendance->clock_in->format('H:i') : '' }}">
+                        〜
+                        <input type="time"
+                            name="requested_clock_out"
+                            value="{{ $attendance->clock_out ? $attendance->clock_out->format('H:i') : '' }}">
+                    </td>
+                </tr>
+
+                {{-- 休憩時間 --}}
+                @foreach ($attendance->breakTimes as $i => $break)
+                <tr>
+                    <th>休憩 {{ $i+1 }}</th>
+                    <td>
+                        {{-- start --}}
+                        <input type="time"
+                            name="requested_breaks[{{ $i }}][start]"
+                            value="{{ $break->start_time ? $break->start_time->format('H:i') : '' }}">
+
+                        〜
+
+                        {{-- end --}}
+                        <input type="time"
+                            name="requested_breaks[{{ $i }}][end]"
+                            value="{{ $break->end_time ? $break->end_time->format('H:i') : '' }}">
+                    </td>
+                </tr>
+                @endforeach
+
+                {{-- 備考 --}}
+                <tr>
+                    <th>備考</th>
+                    <td>
+                        <textarea name="request_reason"
+                                required
+                                placeholder="理由を入力してください"></textarea>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div class="button-area">
+                <button type="submit" class="submit-btn">修正</button>
             </div>
         </form>
+        {{-- ▲▲ 修正フォームここまで ▲▲ --}}
+
+
         @endif
+
     </div>
-</main>
-
-<script>
-// 新しい休憩入力フィールドを動的に追加
-document.getElementById('add-break').addEventListener('click', function() {
-    const breaksContainer = document.getElementById('breaks-container');
-
-    // 新しい休憩入力フィールドを作成
-    const newBreakInput = document.createElement('div');
-    newBreakInput.classList.add('break-input');
-
-    newBreakInput.innerHTML =
-        <input type="number" name="break_start[]" step="1" class="border px-2 py-1" required>
-        分
-        〜
-        <input type="number" name="break_end[]" step="1" class="border px-2 py-1" required>
-        分
-    ;
-    breaksContainer.appendChild(newBreakInput);
-});
-</script>
-
-</body>
-</html>
-
+</div>
+@endsection
 

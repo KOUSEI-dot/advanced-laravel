@@ -9,27 +9,28 @@ class AttendanceRecord extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'date', 'clock_in', 'clock_out','status'];
+    protected $fillable = [
+        'user_id',
+        'date',
+        'clock_in',
+        'clock_out',
+        'status',
+    ];
+
+    protected $casts = [
+        'date'      => 'date',
+        'clock_in'  => 'datetime:H:i',
+        'clock_out' => 'datetime:H:i',
+    ];
+
+    public function breakTimes()
+    {
+        return $this->hasMany(BreakTime::class, 'attendance_id');
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    public function attendanceRequests()
-    {
-        return $this->hasMany(AttendanceRequest::class);
-    }
-
-    public function breakTimes()
-    {
-        return $this->hasMany(BreakTime::class,);
-    }
-
-    protected $casts = [
-    'date'      => 'date',
-    'clock_in' => 'datetime',
-    'clock_out' => 'datetime',
-    ];
-
 }
+
