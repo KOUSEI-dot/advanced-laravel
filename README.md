@@ -1,9 +1,9 @@
 # Advanced Laravel（勤怠管理システム）
 
-従業員の **出勤・退勤・休憩の記録** および
+従業員の **出勤・退勤・休憩の記録** および  
 **勤怠修正申請・承認フロー** を管理する Web アプリケーションです。
 
-ユーザー（従業員）と管理者の 2 権限を持ち、
+ユーザー（従業員）と管理者の 2 権限を持ち、  
 ユーザーは勤怠の打刻と修正申請、管理者は勤怠データの確認や承認管理を行います。
 
 ---
@@ -35,7 +35,7 @@ bash
 composer install
 # または
 composer update
-コンテナを抜けます：
+完了後、コンテナを抜けます：
 
 bash
 コードをコピーする
@@ -52,7 +52,7 @@ bash
 cd src
 cp .env.example .env
 php artisan key:generate
-.env を以下に書き換えます：
+以下に書き換えます：
 
 ini
 コードをコピーする
@@ -97,4 +97,6 @@ ER 図は docs/er-diagram.md にまとめています。
 アプリ（開発環境）	http://localhost
 phpMyAdmin	http://localhost:8000
 
+yaml
+コードをコピーする
 ```
